@@ -74,20 +74,25 @@ cp karpathy-loop/SKILL.md ~/.hermes/skills/karpathy-loop/SKILL.md
 
 ### OpenCode
 
-Registre a skill no array `skills` da configuração (`opencode.json` ou `~/.config/opencode/config.json`):
+Registre o diretório da skill em `skills.paths` na configuração (`opencode.json` ou `~/.config/opencode/config.json`):
 
 ```bash
-git clone https://github.com/Wesley-Source/karpathy-loop ~/.config/opencode/skills/karpathy-loop
+mkdir -p ~/.opencode/plugins/karpathy-loop/skills
+git clone https://github.com/Wesley-Source/karpathy-loop ~/.opencode/plugins/karpathy-loop/skills/karpathy-loop
 ```
 
 ```jsonc
-// opencode.json
+// opencode.json — OpenCode 1.18.34+: "skills" é OBJETO com paths (array simples é ignorado)
 {
-  "skills": [
-    { "name": "karpathy-loop", "path": "~/.config/opencode/skills/karpathy-loop/SKILL.md" }
-  ]
+  "skills": {
+    "paths": [
+      "~/.opencode/plugins/karpathy-loop/skills"
+    ]
+  }
 }
 ```
+
+Verifique o registro com `opencode debug skill` (mostra name/location/content). Notas: o config efetivo segue o HOME (`opencode debug paths` confirma); plugins como `oh-my-openagent` podem reescrever o campo `skills` via hook — se a skill aparecer como "not available", rode `opencode debug config` e veja o campo efetivo.
 
 ### Claude Code
 
